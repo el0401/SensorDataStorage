@@ -1,6 +1,6 @@
 package streamMachine;
 
-class PersistenceException extends Exception {
+public class PersistenceException extends Exception {
     public PersistenceException() {
         super();
     }
