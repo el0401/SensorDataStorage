@@ -109,4 +109,4 @@ public class StreamMachineTest {
         machine1.getDataSet(1);
         // we must not reach that line
     }
-}
+}//
