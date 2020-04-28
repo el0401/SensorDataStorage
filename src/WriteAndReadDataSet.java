@@ -30,55 +30,74 @@ public class WriteAndReadDataSet {
         valueSet[1] = (float) 1.2;
 
         // write three data set into a file
-        // TODO: your job. use DataOutputStream / FileOutputStream
 
-        OutputStream os = null;
-        boolean done = false;
-        String filename = "testFile.txt";
-        while (!done) {
-            try {
-                os = new FileOutputStream(filename);
-                done = true;
-            } catch (FileNotFoundException ex) {
-                System.err.println("couldn’t open file - fatal");
-            }
+
+        String filename = "testfile.txt";
+
+        OutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
-        DataOutputStream dos = new DataOutputStream(os);
+        DataOutputStream dos = new DataOutputStream(fileOutputStream);
+
         try {
-            for(int i = 0; i<values.length;i++){
-                for(int j = 0; j<values[i].length; j++){
-                    dos.writeFloat(values[i][j]);
+            dos.writeInt(3);
+            for (int number = 0; number < 3; number++) {
+                // sensorname
+                dos.writeUTF(sensorName);
+
+                // timestamp
+                dos.writeLong(timeStamps[number]);
+
+                // values
+                dos.writeInt(values[number].length);
+                for (int i = 0; i < values[number].length; i++) {
+                    dos.writeFloat(values[number][i]);
                 }
             }
-
-        } catch (IOException ex) {
-            System.err.println("couldn’t write data (fatal)");
-            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
         // read data from file and print to System.out
-        // TODO: your job use DataInputStream / FileInputStream
+
         InputStream is = null;
         try {
             is = new FileInputStream(filename);
-        } catch (FileNotFoundException ex) {
-            System.err.println("couldn’t open file - fatal");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-
         DataInputStream dis = new DataInputStream(is);
-        try {
-            for(int i = 0; i<values.length;i++) {
-                for (int j = 0; j < values[i].length; j++) {
-                    float readFloatValue = dis.readFloat();
-                    System.out.println(readFloatValue);
-                }
-            }
 
-        } catch (IOException ex) {
-            System.err.println("couldn’t read data (fatal)");
-            System.exit(0);
+        int numberSets = 0;
+        try {
+            numberSets = dis.readInt();
+            while (numberSets-- > 0) {
+                // sensorname
+                String sensorNameReceived = dis.readUTF();
+                System.out.println("sensorname == " + sensorNameReceived);
+
+                // timestamp
+                long timeStampReceived = dis.readLong();
+                System.out.println("timeStampReceived == " + timeStampReceived);
+
+                // values
+                int numberReceived = dis.readInt();
+                float[] valuesReceived = new float[numberReceived];
+                for (int i = 0; i < numberReceived; i++) {
+                    valuesReceived[i] = dis.readFloat();
+                    System.out.print("value[" + i + "]" + valuesReceived[i]);
+                }
+                System.out.println(" ");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        System.out.println("number data sets == " + numberSets);
+
     }
 }
