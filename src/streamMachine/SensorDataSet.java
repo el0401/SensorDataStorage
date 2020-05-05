@@ -12,5 +12,7 @@ public interface SensorDataSet {
      * @return actual values
      */
     float[] getValues();
+
+    String getName();
 }
 

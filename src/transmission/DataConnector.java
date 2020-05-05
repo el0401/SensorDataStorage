@@ -5,30 +5,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class DataConnector implements DataConnection {
-    private final Socket socket;
+    private Socket socket;
     private int port;
     private ServerSocket server;
+    private final boolean isServer;
+    private final String address;
 
     /**
      * Create client side - open connection to address / port
      * @param address
      */
-    public DataConnector(String address, int port) throws IOException {
-        socket = new Socket(address,port);
-
-        System.out.println("successfully connected to: "+address+":"+"port");
+    public DataConnector(String address, int port, boolean isServer) throws IOException {
+        this.address = address;
+        this.port = port;
+        this.isServer = isServer;
     }
 
-    /**
-     * Create server side - open port on this port and wait for one client
-     * @param port
-     */
-    public DataConnector(int port) throws IOException {
-        server = new ServerSocket(port);
-        socket = server.accept();
-
-        System.out.println("connection successfully established");
-    }
 
     @Override
     public DataInputStream getDataInputStream() throws IOException {
@@ -42,5 +34,23 @@ public class DataConnector implements DataConnection {
         OutputStream os = socket.getOutputStream();
         DataOutputStream dos = new DataOutputStream(os);
         return dos;
+    }
+
+    @Override
+    public void run() {
+        try {
+            if (isServer) {
+                ServerSocket server = new ServerSocket(this.port);
+                this.socket = server.accept();
+                System.out.println("Client  " + this.socket.getRemoteSocketAddress()
+                        + "  connected successfully.");
+            } else {
+                this.socket = new Socket(this.address, this.port);
+                System.out.println("Client created.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

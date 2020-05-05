@@ -3,8 +3,10 @@ package streamMachine;
 public class SensorDataSetImp implements SensorDataSet {
     private final long timeStamp;
     private final float[] values;
+    private final String name;
 
-    public SensorDataSetImp(long timeStamp, float[] values) {
+    SensorDataSetImp(String name, long timeStamp, float values[]){
+        this.name = name;
         this.timeStamp = timeStamp;
         this.values = values;
     }
@@ -17,5 +19,10 @@ public class SensorDataSetImp implements SensorDataSet {
     @Override
     public float[] getValues() {
         return this.values;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 }

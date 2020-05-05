@@ -3,9 +3,11 @@ package streamMachine;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class StreamMachineTest {
     @Test
-    public void gutTest1() throws PersistenceException {
+    public void gutTest1() throws PersistenceException, IOException {
         String sensorName1 = "sensor1";
         SensorDataStorage machine1 = new SensorDataStorageImpl(sensorName1);
         machine1.clean();
@@ -69,7 +71,7 @@ public class StreamMachineTest {
      * @throws PersistenceException
      */
     @Test(expected = PersistenceException.class)
-    public void schlechtTestNullValue() throws PersistenceException {
+    public void schlechtTestNullValue() throws PersistenceException, IOException {
         SensorDataStorage machine1 = new SensorDataStorageImpl("X");
         machine1.clean();
 
@@ -82,7 +84,7 @@ public class StreamMachineTest {
      * @throws PersistenceException
      */
     @Test(expected = PersistenceException.class)
-    public void schlechtTestMinusTime() throws PersistenceException {
+    public void schlechtTestMinusTime() throws PersistenceException, IOException {
         SensorDataStorage machine1 = new SensorDataStorageImpl("X");
         machine1.clean();
         float[] values = new float[1];
@@ -97,7 +99,7 @@ public class StreamMachineTest {
      * @throws PersistenceException
      */
     @Test(expected = PersistenceException.class)
-    public void schlechtTestBeyondIndex() throws PersistenceException {
+    public void schlechtTestBeyondIndex() throws PersistenceException, IOException {
         SensorDataStorage machine1 = new SensorDataStorageImpl("X");
         machine1.clean();
         float[] values = new float[1];

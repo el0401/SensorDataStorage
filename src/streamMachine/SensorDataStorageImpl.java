@@ -43,15 +43,17 @@ public class SensorDataStorageImpl implements SensorDataStorage {
     }
 
     @Override
-    public void saveData(long time, float[] values) throws PersistenceException {
+    public void saveData(long time, float[] values) throws PersistenceException, IOException {
         // test of invalid parameters
         if(time < 0 || values == null || values.length < 1) {
-            throw new PersistenceException("parameters are valid, values null or negative time");
+            throw new PersistenceException("parameters are invalid, values null or negative time");
         }
 
         OutputStream fileOutputStream = null;
+        File file = new File(this.filename);
+
         try {
-            fileOutputStream = new FileOutputStream(this.filename, true);
+            fileOutputStream = new FileOutputStream(file, false);
         } catch (FileNotFoundException e) {
             throw new PersistenceException(e.getLocalizedMessage());
         }
@@ -102,7 +104,7 @@ public class SensorDataStorageImpl implements SensorDataStorage {
             }
 
             // keep it in memory
-            this.sensorData[i] = new SensorDataSetImp(timeStamp, values);
+            this.sensorData[i] = new SensorDataSetImp(sensorName, timeStamp, values);
         }
     }
 

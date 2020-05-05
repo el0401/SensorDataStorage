@@ -1,5 +1,7 @@
 package streamMachine;
 
+import java.io.IOException;
+
 /**
  * We assume: Each sensor gets its own storage engine. There wont be a parameter
  * sensor name.
@@ -12,7 +14,7 @@ public interface SensorDataStorage {
      * @param values sensor data
      * @throws PersistenceException if something unexpected happened. Insufficient right, medium broken, offline..
      */
-    void saveData(long time, float[] values) throws PersistenceException;
+    void saveData(long time, float[] values) throws PersistenceException, IOException;
 
     /**
      * @return number of data sets

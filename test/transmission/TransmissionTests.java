@@ -12,12 +12,18 @@ public class TransmissionTests {
     private static final int TEST_INT = 42;
 
     @Test
-    public void gutConnectionTest1() throws IOException {
+    public void gutConnectionTest1() throws IOException, InterruptedException {
         // open server side
-        DataConnection serverSide = new DataConnector(PORTNUMBER);
+        DataConnection serverSide = new DataConnector("localhost",PORTNUMBER, true);
+        Thread t1 = new Thread(serverSide);
+        t1.start();
 
         // open client side
-        DataConnection clientSide = new DataConnector("localhost", PORTNUMBER);
+        DataConnection clientSide = new DataConnector("localhost", PORTNUMBER, false);
+        Thread t2 = new Thread(clientSide);
+        t2.start();
+
+        Thread.sleep(100);
 
         DataOutputStream dataOutputStream = clientSide.getDataOutputStream();
         dataOutputStream.writeInt(TEST_INT);
