@@ -10,7 +10,7 @@ import chess.figures.FigureTypes;
 import java.io.IOException;
 import java.util.Random;
 
-public class BoardImpl implements Board , Reciever{
+public class BoardImpl implements Board , Receiver {
     private GameStatus status;
     private final Sender sender;
     private int diceNr;
@@ -60,22 +60,37 @@ public class BoardImpl implements Board , Reciever{
     }
 
     @Override
-    public void waitForDice() throws ErrorRecievedException, SameNumberException {
+    public void waitForDice(int number) throws ErrorRecievedException, SameNumberException {
 
     }
 
     @Override
-    public void waitForChoosenColor() throws ErrorRecievedException {
+    public void waitForChoosenColor(boolean white) throws ErrorRecievedException {
 
     }
 
     @Override
-    public void waitForAction() throws ErrorRecievedException {
+    public void waitForMove(int from, int read) throws ErrorRecievedException {
 
     }
 
     @Override
-    public void waitForProposeAnswer() throws ErrorRecievedException {
+    public void waitForProposeAnswer(boolean accept) throws ErrorRecievedException {
+
+    }
+
+    @Override
+    public void waitForPawnMove(int from, int read, String figure) throws ErrorRecievedException {
+
+    }
+
+    @Override
+    public void waitForRochade(int form) throws ErrorRecievedException {
+
+    }
+
+    @Override
+    public void receiveEndGame(int reason) throws ErrorRecievedException {
 
     }
 }
